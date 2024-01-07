@@ -1,0 +1,23 @@
+{
+  "private": true,
+  "name": "algobreath-api",
+  "version": "1.0.0",
+  "main": "dist/worker.js",
+  "scripts": {
+    "dev": "wrangler dev src/index.ts",
+    "deploy": "wrangler deploy --minify src/index.ts",
+    "migrations:gen": "drizzle-kit generate:sqlite",
+    "drop": "drizzle-kit drop",
+    "local:migrations:apply": "wrangler d1 migrations apply DB --local",
+    "migrations:apply": "NO_D1_WARNING=true wrangler d1 migrations apply DB"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.29.2",
+    "hono": "^3.11.10"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20231218.0",
+    "wrangler": "^3.22.1",
+    "drizzle-kit": "^0.20.8"
+  }
+}
