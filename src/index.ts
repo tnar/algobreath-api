@@ -301,8 +301,7 @@ app.get("/notesToTags/notes/:noteId", async (c) => {
     .from(notesToTags)
     // .leftJoin(tags, eq(notesToTags.tagId, tags.id))
     .leftJoin(notes, eq(notesToTags.noteId, notes.id))
-    .where(eq(notes.id, Number(noteId)))
-    .all();
+    .where(eq(notes.id, Number(noteId)));
 
   if (!res) {
     throw new Error(`Failed to get tags.`);
@@ -332,7 +331,7 @@ app.get("/notesToTags/tags/:tagId", async (c) => {
     .leftJoin(notes, eq(notesToTags.noteId, notes.id))
     .leftJoin(tags, eq(notesToTags.tagId, tags.id))
     .where(eq(tags.id, tagId))
-    .all();
+    .orderBy(desc(notes.updatedAt));
 
   if (!res) {
     throw new Error(`Failed to get notes.`);
