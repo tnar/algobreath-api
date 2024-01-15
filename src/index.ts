@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { drizzle } from "drizzle-orm/d1";
 import { notes, tags, notesToTags } from "./schema";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 import { bearerAuth } from "hono/bearer-auth";
 
 const app = new Hono();
@@ -266,17 +266,19 @@ app.delete("/notesToTags/:noteId/:tagId", async (c) => {
   const db = drizzle(DB);
   const noteId = c.req.param("noteId");
   if (!noteId) {
-    throw new Error("id is not defined");
+    throw new Error("noteId is not defined");
   }
   const tagId = c.req.param("tagId");
   if (!tagId) {
-    throw new Error("id is not defined");
+    throw new Error("tagId is not defined");
   }
   const res = await db
     .delete(notesToTags)
     .where(
-      eq(notesToTags.noteId, Number(noteId)) &&
+      and(
+        eq(notesToTags.noteId, Number(noteId)),
         eq(notesToTags.tagId, Number(tagId))
+      )
     );
 
   return c.json(res);
