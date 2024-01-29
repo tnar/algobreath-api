@@ -1,3 +1,7 @@
+type Bindings = {
+  DB: D1Database;
+};
+
 interface NewNote {
   slug: string;
   title: string;
@@ -23,7 +27,3 @@ interface NewTag {
 interface Tag extends NewTag {
   id: number;
 }
-
-type Env = {
-  DB: D1Database;
-};
