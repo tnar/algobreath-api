@@ -16,16 +16,16 @@ notesRoute
     }
     const db = drizzle(DB);
 
-    let note = await db
+    let data = await db
       .select({ title: notes.title, slug: notes.slug })
       .from(notes)
       .orderBy(desc(notes.updatedAt));
 
-    if (!note) {
-      throw new Error(`Failed to get the latest note.`);
+    if (!data) {
+      throw new Error(`Failed to get the note data.`);
     }
 
-    return c.json(note);
+    return c.json(data);
   })
   .post(async (c) => {
     if (!c.env) {
